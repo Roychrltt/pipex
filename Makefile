@@ -2,20 +2,15 @@ NAME = pipex
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I ${INCLUDES}
-
-INCLUDES = ./includes/
+CFLAGS = -Wall -Wextra -Werror -I ./src/
 
 SRC_DIR = ./src/
 
-SRC_FILES = pipex.c \
-			pipex_utils.c \
-			ft_printf.c \
-			ft_printf_utils.c
-
+SRC_FILES = pipex.c utils.c 
+			
 SRC = ${addprefix ${SRC_DIR}, ${SRC_FILES}}
 
-IBJS = ${SRCS:.c=.o}
+OBJS = ${SRCS:.c=.o}
 
 EXEC = a.out
 
@@ -27,8 +22,13 @@ $(NAME):
 	${CC} ${CFLAGS} -c $< -o $@
 
 test: ${EXEC}
+	chmod 755 ${EXEC}
+
+$(EXEC):
+	${CC} ${CFLAGS} ${SRC}
 
 clean:
+	rm -rf a.out
 
 fclean: clean
 
