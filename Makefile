@@ -17,6 +17,8 @@ EXEC = a.out
 all = $(NAME)
 
 $(NAME): 
+	${MAKE} -C libft
+	cp libft/libft.a ./
 
 %.o: %.c
 	${CC} ${CFLAGS} -c $< -o $@
@@ -28,9 +30,13 @@ $(EXEC):
 	${CC} ${CFLAGS} ${SRC}
 
 clean:
-	rm -rf a.out
+	${MAKE} -C libft clean
+	rm -rf ${OBJS}
 
 fclean: clean
+	${MAKE} -C libft fclean
+	rm -rf ${NAME}
+	rm -rf libft.a
 
 re: fclean all
 
