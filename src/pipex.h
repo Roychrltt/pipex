@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:05:37 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/10 10:51:46 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/10 19:23:17 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 # include <unistd.h>
 
 void	error_message(char *error);
-void	exit_invalid_input(void);
-size_t	ft_strlen(const char *s);
-char	**ft_split(char const *s, char c);
+void	perror_message(char *error);
+char	*ft_getenv(char *path, char **envp);
+char	*get_command(char *path, char *cmd);
+void	free_tab(char **tab);
 
 #endif

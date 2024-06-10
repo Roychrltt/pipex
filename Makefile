@@ -16,9 +16,9 @@ EXEC = a.out
 
 all = $(NAME)
 
-$(NAME): 
+$(NAME): ${OBJS}
 	${MAKE} -C libft
-	cp libft/libft.a ./
+	${CC} ${CFLAGS} ${OBJS} -L./libft -lft -o ${NAME}
 
 %.o: %.c
 	${CC} ${CFLAGS} -c $< -o $@
