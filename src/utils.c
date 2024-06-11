@@ -6,7 +6,7 @@
 /*   By: roychrltt <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 12:21:59 by roychrltt         #+#    #+#             */
-/*   Updated: 2024/06/10 21:23:54 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/11 15:18:02 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,7 @@ char	*get_command(char *path, char *cmd)
 		command = ft_strjoin(try, cmd);
 		free(try);
 		if (access(command, 0) == 0)
-		{
-		//	perror("COMMAND FOUND");
 			return (command);
-		}
 		free(command);
 		i++;
 	}

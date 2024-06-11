@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:28:31 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/10 21:25:23 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/11 15:18:26 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static void	child1(char **argv, char **envp, int *fd, char *path)
 	infile = open(argv[1], O_RDONLY);
 	if (infile == -1)
 		perror_message("Infile open failure");
-	dup2(fd[1], 1);
+	dup2(infile, STDIN_FILENO);
+	dup2(fd[1], STDOUT_FILENO);
+	close(infile);
 	close(fd[0]);
-	dup2(infile, 0);
 	command_args = ft_split(argv[2], ' ');
-	perror("Test error");
 	command = get_command(path, command_args[0]);
 	if (!command)
 	{
@@ -47,9 +47,10 @@ static void	child2(char **argv, char **envp, int *fd, char *path)
 	outfile = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 	if (outfile == -1)
 		perror_message("Outfile open failure");
-	dup2(fd[0], 0);
+	dup2(outfile, STDOUT_FILENO);
+	dup2(fd[0], STDIN_FILENO);
+	close(outfile);
 	close(fd[1]);
-	dup2(outfile, 1);
 	command_args = ft_split(argv[3], ' ');
 	command = get_command(path, command_args[0]);
 	if (!command)
@@ -83,6 +84,8 @@ int	main(int argc, char **argv, char **envp)
 		perror_message("Fork");
 	else if (pid[1] == 0)
 		child2(argv, envp, fd, path);
+	close(fd[0]);
+	close(fd[1]);
 	waitpid(pid[0], NULL, 0);
 	waitpid(pid[1], NULL, 0);
 	return (0);
