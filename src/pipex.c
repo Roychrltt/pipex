@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:28:31 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/11 15:18:26 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/11 18:02:36 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	child1(char **argv, char **envp, int *fd, char *path)
 	{
 		free_tab(command_args);
 		free(command);
-		error_message("Command not found.\n");
+		error_message("Invalid command.\n");
 		exit(EXIT_FAILURE);
 	}
 	execve(command, command_args, envp);
@@ -57,7 +57,7 @@ static void	child2(char **argv, char **envp, int *fd, char *path)
 	{
 		free_tab(command_args);
 		free(command);
-		error_message("Command not found.\n");
+		error_message("Invalid command.\n");
 		exit(EXIT_FAILURE);
 	}
 	execve(command, command_args, envp);

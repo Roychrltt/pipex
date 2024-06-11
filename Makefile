@@ -14,9 +14,9 @@ OBJS = ${SRCS:.c=.o}
 
 EXEC = a.out
 
-all = $(NAME)
+all = ${NAME}
 
-$(NAME): ${OBJS}
+${NAME}: ${OBJS}
 	${MAKE} -C libft
 	${CC} ${CFLAGS} ${SRC} -L./libft -lft -o ${NAME}
 
