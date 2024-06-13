@@ -8,34 +8,42 @@ SRC_DIR = ./src/
 
 SRC_FILES = pipex.c utils.c 
 			
-SRC = ${addprefix ${SRC_DIR}, ${SRC_FILES}}
+SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
-OBJS = ${SRCS:.c=.o}
+OBJS = $(SRC:.c=.o)
+
+SRC_BONUS_DIR = ./src_bonus/
+
+SRC_BONUS_FILES = pipex_bonus.c pipex_utils_bonus.c 
+			
+SRC_BONUS = $(addprefix $(SRC_BONUS_DIR), $(SRC_BONUS_FILES))
+
+OBJS_BONUS = $(SRC_BONUS:.c=.o)
 
 EXEC = a.out
 
-all = ${NAME}
+all = $(NAME)
 
-${NAME}: ${OBJS}
-	${MAKE} -C libft
-	${CC} ${CFLAGS} ${SRC} -L./libft -lft -o ${NAME}
+$(NAME): $(OBJS)
+	$(MAKE) -C libft
+	$(CC) $(CFLAGS) $(SRC) -L./libft -lft -o $(NAME)
 
 %.o: %.c
-	${CC} ${CFLAGS} -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
-test: ${EXEC}
-	chmod 755 ${EXEC}
+test: $(EXEC)
+	chmod 755 $(EXEC)
 
 $(EXEC):
-	${CC} ${CFLAGS} ${SRC}
+	$(CC) $(CFLAGS) $(SRC)
 
 clean:
-	${MAKE} -C libft clean
-	rm -rf ${OBJS}
+	$(MAKE) -C libft clean
+	rm -rf $(OBJS)
 
 fclean: clean
-	${MAKE} -C libft fclean
-	rm -rf ${NAME}
+	$(MAKE) -C libft fclean
+	rm -rf $(NAME)
 	rm -rf libft.a
 
 re: fclean all
