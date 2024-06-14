@@ -33,9 +33,7 @@ SRC = ft_atoi.c \
 	  ft_strtrim.c \
 	  ft_substr.c \
 	  ft_tolower.c \
-	  ft_toupper.c \
-	  get_next_line.c \
-	  get_next_line_utils.c \
+	  ft_toupper.c
 
 SRC_BONUS = ft_lstadd_back_bonus.c \
 			ft_lstadd_front_bonus.c \
@@ -47,38 +45,29 @@ SRC_BONUS = ft_lstadd_back_bonus.c \
 			ft_lstnew_bonus.c \
 			ft_lstsize_bonus.c 
 
-OBJ = $(SRC:.c=.o)
+OBJ = ${SRC:.c=.o}
 
-OBJ_BONUS = $(SRC_BONUS:.c=.o)
+OBJ_BONUS = ${SRC_BONUS:.c=.o}
 
 CC = gcc -Wall -Wextra -Werror
 
-all: $(NAME)
+all: ${NAME}
 
-$(NAME): $(OBJ) libft.h
-	ar rc $(NAME) $(OBJ)
-	@echo "$(GREEN)$(NAME) created!$(DEFAULT)"
+${NAME}: ${OBJ} libft.h
+	ar rc ${NAME} ${OBJ}
 
 %.o: %.c libft.h
-	$(CC) -I. -c $< -o $@
+	${CC} -I. -c $< -o $@
 
-bonus: $(OBJ_BONUS) libft.h
-	ar rc $(NAME) $(OBJ_BONUS)
+bonus: ${OBJ_BONUS} libft.h
+	ar rc ${NAME} ${OBJ_BONUS}
 
 clean:
-	rm -rf $(OBJ) $(OBJ_BONUS)
-	@echo "$(YELLOW)Object files deleted!$(DEFAULT)"
+	rm -rf ${OBJ} ${OBJ_BONUS}
 
 fclean: clean
-	rm -rf $(NAME)
-	@echo "$(RED)All deleted!$(DEFAULT)"
+	rm -rf ${NAME}
 
 re: fclean all
 
 .PHONY: all clean fclean re bonus
-
-#COLORS
-RED = \033[1;31m
-GREEN = \033[1;32m
-YELLOW = \033[1;33m
-DEFAULT = \033[0m

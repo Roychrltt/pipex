@@ -6,12 +6,11 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:28:31 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/12 14:57:10 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/14 11:32:45 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include "libft.h"
 
 static void	child1(char **argv, char **envp, int *fd, char *path)
 {
@@ -33,10 +32,9 @@ static void	child1(char **argv, char **envp, int *fd, char *path)
 		free_tab(command_args);
 		free(command);
 		error_message("Invalid command.\n");
-		exit(EXIT_FAILURE);
 	}
 	execve(command, command_args, envp);
-	perror_message("pipex");
+	perror_message("Pipex");
 }
 
 static void	child2(char **argv, char **envp, int *fd, char *path)

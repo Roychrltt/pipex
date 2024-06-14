@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   line_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 12:26:00 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/05/26 14:38:54 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/14 15:01:56 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "pipex_bonus.h"
 
 int	check_remnant(char *remnant, char *readed)
 {
@@ -19,16 +19,16 @@ int	check_remnant(char *remnant, char *readed)
 
 	if (*remnant)
 	{
-		pos = ft_strchr(remnant);
-		len = ft_strlen(remnant);
+		pos = gnl_strchr(remnant);
+		len = gnl_strlen(remnant);
 		if (pos < len)
 		{
-			ft_strlcpy(readed, remnant, pos + 1);
-			ft_strlcpy(remnant, remnant + pos + 1, len - pos - 1);
+			gnl_strlcpy(readed, remnant, pos + 1);
+			gnl_strlcpy(remnant, remnant + pos + 1, len - pos - 1);
 			return (1);
 		}
 		else
-			ft_strlcpy(readed, remnant, len);
+			gnl_strlcpy(readed, remnant, len);
 	}
 	return (0);
 }
@@ -39,17 +39,17 @@ void	update_readed(char **readed, char *new)
 	size_t	readlen;
 	size_t	newlen;
 
-	readlen = ft_strlen(*readed);
-	newlen = ft_strlen(new);
+	readlen = gnl_strlen(*readed);
+	newlen = gnl_strlen(new);
 	if (readlen == 0)
-		ft_strlcpy(*readed, new, newlen);
+		gnl_strlcpy(*readed, new, newlen);
 	else
 	{
 		temp = malloc(readlen + newlen + 1);
 		if (!temp)
 			return ;
-		ft_strlcpy(temp, *readed, readlen);
-		ft_strlcpy(temp + readlen, new, newlen);
+		gnl_strlcpy(temp, *readed, readlen);
+		gnl_strlcpy(temp + readlen, new, newlen);
 		free(*readed);
 		*readed = temp;
 	}
@@ -65,15 +65,15 @@ void	read_file(int fd, char *cur, char **readed, char *remnant)
 	while (bytes_read > 0)
 	{
 		cur[bytes_read] = 0;
-		pos = ft_strchr(cur);
+		pos = gnl_strchr(cur);
 		if (pos < bytes_read)
 		{
-			new = ft_substr(cur, 0, pos + 1);
+			new = gnl_substr(cur, 0, pos + 1);
 			if (!new)
 				return ;
 			update_readed(readed, new);
 			free(new);
-			ft_strlcpy(remnant, cur + pos + 1, ft_strlen(cur) - pos);
+			gnl_strlcpy(remnant, cur + pos + 1, gnl_strlen(cur) - pos);
 			break ;
 		}
 		else
@@ -104,7 +104,7 @@ char	*get_next_line(int fd)
 		return (free(cur), readed);
 	read_file(fd, cur, &readed, remnant);
 	free(cur);
-	if (ft_strlen(readed) == 0)
+	if (gnl_strlen(readed) == 0)
 		return (free(readed), NULL);
 	return (readed);
 }

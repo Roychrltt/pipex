@@ -2,7 +2,7 @@ NAME = pipex
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I ./src/
+CFLAGS = -Wall -Wextra -Werror
 
 SRC_DIR = ./src/
 
@@ -14,7 +14,8 @@ OBJS = $(SRC:.c=.o)
 
 SRC_BONUS_DIR = ./src_bonus/
 
-SRC_BONUS_FILES = pipex_bonus.c pipex_utils_bonus.c 
+SRC_BONUS_FILES = pipex_bonus.c pipex_utils_bonus.c \
+				  line_bonus.c line_utils_bonus.c
 			
 SRC_BONUS = $(addprefix $(SRC_BONUS_DIR), $(SRC_BONUS_FILES))
 
@@ -26,7 +27,7 @@ all = $(NAME)
 
 $(NAME): $(OBJS)
 	$(MAKE) -C libft
-	$(CC) $(CFLAGS) $(SRC) -L./libft -lft -o $(NAME)
+	$(CC) $(CFLAGS) -I ./src/ $(SRC) -L./libft -lft -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -37,9 +38,14 @@ test: $(EXEC)
 $(EXEC):
 	$(CC) $(CFLAGS) $(SRC)
 
+bonus: $(OBJS_BONUS)
+	$(MAKE) -C libft
+	$(CC) $(CFLAGS) -I ./src_bonus/ $(SRC_BONUS) -L./libft -lft -o $(NAME)
+
 clean:
 	$(MAKE) -C libft clean
 	rm -rf $(OBJS)
+	rm -rf $(OBJS_BONUS)
 
 fclean: clean
 	$(MAKE) -C libft fclean
@@ -48,4 +54,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: $(NAME) all clean fclean re
+.PHONY: $(NAME) all clean fclean re bonus

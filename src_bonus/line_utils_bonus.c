@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   line_utils_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:22:51 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/05/26 15:11:33 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/14 15:11:00 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "pipex_bonus.h"
 
-size_t	ft_strlen(const char *s)
+size_t	gnl_strlen(const char *s)
 {
 	size_t	i;
 
@@ -24,7 +24,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-size_t	ft_strchr(const char *s)
+size_t	gnl_strchr(const char *s)
 {
 	int	i;
 
@@ -38,12 +38,12 @@ size_t	ft_strchr(const char *s)
 	return (i);
 }
 
-void	ft_strlcpy(char *dst, const char *src, size_t len)
+void	gnl_strlcpy(char *dst, const char *src, size_t len)
 {
 	size_t	i;
 
 	i = 0;
-	while (src[i] && i < len)
+    :x
 	{
 		dst[i] = src[i];
 		i++;
@@ -51,7 +51,7 @@ void	ft_strlcpy(char *dst, const char *src, size_t len)
 	dst[i] = 0;
 }
 
-char	*ft_substr(char const *s, size_t start, size_t len)
+char	*gnl_substr(char const *s, size_t start, size_t len)
 {
 	char	*sub;
 	size_t	i;
