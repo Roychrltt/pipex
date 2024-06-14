@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:41:50 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/14 17:54:17 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/14 18:31:58 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static void	get_here_doc_input(char **argv, int *fd)
 	close(fd[0]);
 	file = open(".here_doc.tmp", O_WRONLY | O_CREAT | O_TRUNC,
 			S_IRUSR | S_IWUSR);
+	if (file == -1)
+		perror_message(".here_doc.tmp file open failure");
 	while (1)
 	{
 		input = get_next_line(STDIN_FILENO);
@@ -51,6 +53,7 @@ static void	get_here_doc_input(char **argv, int *fd)
 		}
 		write(file, input, ft_strlen(input));
 		write(file, "\n", 1);
+		free(input);
 	}
 	close(file);
 }
@@ -92,12 +95,14 @@ static void	ft_pipe(char *param, char **envp)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		exec_command(param, envp);
+		perror_message("Pipex");
 	}
 	else
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
+		wait(NULL);
 	}
 }
 
@@ -108,11 +113,11 @@ int	main(int argc, char **argv, char **envp)
 	int		outfile;
 
 	if (argc < 5)
-		ft_putstr_fd("Usage: ./pipex file1 cmd1 cmd2 ... cmdn file2\n", 1);
+		exit_handler();
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
 		if (argc < 6)
-			ft_putstr_fd("Usage: ./pipex file1 cmd1 cmd2 ... cmdn file2\n", 1);
+			exit_handler();
 		i = 3;
 		outfile = open_file(argv[argc - 1], 2);
 		ft_here_doc(argv);
@@ -123,9 +128,12 @@ int	main(int argc, char **argv, char **envp)
 		infile = open_file(argv[1], 0);
 		outfile = open_file(argv[argc - 1], 1);
 		dup2(infile, STDIN_FILENO);
+		close(infile);
 	}
 	while (i < argc - 2)
 		ft_pipe(argv[i++], envp);
 	dup2(outfile, STDOUT_FILENO);
+	close(outfile);
 	exec_command(argv[argc - 2], envp);
+	wait(NULL);
 }

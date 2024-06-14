@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:28:31 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/14 11:32:45 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/14 18:37:21 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	main(int argc, char **argv, char **envp)
 		child2(argv, envp, fd, path);
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid[0], NULL, 0);
-	waitpid(pid[1], NULL, 0);
+	wait(NULL);
 	return (0);
 }

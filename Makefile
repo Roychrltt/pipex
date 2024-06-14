@@ -14,7 +14,7 @@ OBJS = $(SRC:.c=.o)
 
 SRC_BONUS_DIR = ./src_bonus/
 
-SRC_BONUS_FILES = pipex_bonus.c pipex_utils_bonus.c \
+SRC_BONUS_FILES = pipex_bonus.c pipex_utils_bonus.c pipex_utils1_bonus.c \
 				  line_bonus.c line_utils_bonus.c
 			
 SRC_BONUS = $(addprefix $(SRC_BONUS_DIR), $(SRC_BONUS_FILES))
