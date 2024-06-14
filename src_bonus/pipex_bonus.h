@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:05:37 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/14 15:00:35 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/14 17:39:19 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 #  define BUFFER_SIZE 10
 # endif
 
-void	error_message(char *error);
 void	perror_message(char *error);
 char	*ft_getenv(char *path, char **envp);
 char	*get_command(char *path, char *cmd);
@@ -36,5 +35,6 @@ size_t	gnl_strchr(const char *s);
 void	gnl_strlcpy(char *dst, const char *src, size_t len);
 char	*gnl_substr(char const *s, size_t start, size_t len);
 char	*get_next_line(int fd);
+int		open_file(char *file, int n);
 
 #endif

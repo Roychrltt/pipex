@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:36:14 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/14 14:40:40 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/14 17:41:07 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,30 @@ void	perror_message(char *error)
 	exit(EXIT_FAILURE);
 }
 
-void	error_message(char *error)
+int	open_file(char *file, int n)
 {
-	write(2, error, ft_strlen(error));
-	exit(EXIT_FAILURE);
+	int	fd;
+
+	fd = -1;
+	if (n == 1)
+	{
+		fd = open(file, O_RDONLY);
+		if (fd == -1)
+			perror_message("Infile open failure");
+	}
+	if (n == 1)
+	{
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+		if (fd == -1)
+			perror_message("Outfile open failure");
+	}
+	if (n == 2)
+	{
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
+		if (fd == -1)
+			perror_message("Outfile open failure");
+	}
+	return (fd);
 }
 
 char	*ft_getenv(char *path, char **envp)

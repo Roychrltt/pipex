@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:41:50 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/14 15:31:59 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/14 17:54:17 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static void	exec_command(char *param, char **envp)
 	command = get_command(path, command_args[0]);
 	if (!command)
 	{
-	//	free_tab(command_args);
-	//	free(command);
-		error_message("Invalid command.\n");
+		free_tab(command_args);
+		free(command);
+		perror_message("Invalid command.\n");
 	}
 	execve(command, command_args, envp);
 	perror_message("Pipex");
@@ -46,13 +46,12 @@ static void	get_here_doc_input(char **argv, int *fd)
 			perror_message("Invalid input");
 		if (ft_strncmp(input, argv[2], ft_strlen(argv[2])) == 0)
 		{
-		//	free(input);
+			free(input);
 			break ;
 		}
-		write (file, input, ft_strlen(input));
-		write (file, "\n", 1);
+		write(file, input, ft_strlen(input));
+		write(file, "\n", 1);
 	}
-//	free(input);
 	close(file);
 }
 
@@ -73,7 +72,7 @@ static void	ft_here_doc(char **argv)
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
-		waitpid(pid, NULL, 0);
+		wait(NULL);
 	}
 }
 
@@ -91,12 +90,14 @@ static void	ft_pipe(char *param, char **envp)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
 		exec_command(param, envp);
 	}
 	else
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
 	}
 }
 
@@ -107,28 +108,20 @@ int	main(int argc, char **argv, char **envp)
 	int		outfile;
 
 	if (argc < 5)
-		error_message("Usage: ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2\n");
+		ft_putstr_fd("Usage: ./pipex file1 cmd1 cmd2 ... cmdn file2\n", 1);
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
 		if (argc < 6)
-			error_message("Usage: ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2\n");
+			ft_putstr_fd("Usage: ./pipex file1 cmd1 cmd2 ... cmdn file2\n", 1);
 		i = 3;
-		outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND,
-				S_IRUSR | S_IWUSR);
-		if (outfile == -1)
-			perror_message("Outfile open failure");
+		outfile = open_file(argv[argc - 1], 2);
 		ft_here_doc(argv);
 	}
 	else
 	{
 		i = 2;
-		infile = open(argv[1], O_RDONLY);
-		if (infile == -1)
-			perror_message("Infile open failure");
-		outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC,
-				S_IRUSR | S_IWUSR);
-		if (outfile == -1)
-			perror_message("Outfile open failure");
+		infile = open_file(argv[1], 0);
+		outfile = open_file(argv[argc - 1], 1);
 		dup2(infile, STDIN_FILENO);
 	}
 	while (i < argc - 2)
