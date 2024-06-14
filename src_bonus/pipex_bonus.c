@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:41:50 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/14 15:09:35 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/14 15:31:59 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	ft_here_doc(char **argv)
 
 	if (pipe(fd) == -1)
 		perror_message("Pipe");
+	write (1, "here_doc>", 9);
 	pid = fork();
 	if (pid == -1)
 		perror_message("Fork");

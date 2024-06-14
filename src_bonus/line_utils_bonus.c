@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:22:51 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/14 15:11:00 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/14 15:17:39 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	gnl_strlcpy(char *dst, const char *src, size_t len)
 	size_t	i;
 
 	i = 0;
-    :x
+	while (src[i] && i < len)
 	{
 		dst[i] = src[i];
 		i++;
