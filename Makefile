@@ -27,7 +27,9 @@ all = $(NAME)
 
 $(NAME): $(OBJS)
 	$(MAKE) -C libft
+	@echo "$(GREEN)Program pipex creating!$(RESET)"
 	$(CC) $(CFLAGS) -I ./src/ $(SRC) -L./libft -lft -o $(NAME)
+	@echo "$(GREEN)Program pipex create!$(RESET)"
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -40,18 +42,33 @@ $(EXEC):
 
 bonus: $(OBJS_BONUS)
 	$(MAKE) -C libft
+	@echo "$(GREEN)Bonus pipex creating!$(RESET)"
 	$(CC) $(CFLAGS) -I ./src_bonus/ $(SRC_BONUS) -L./libft -lft -o $(NAME)
+	@echo "$(GREEN)Bonus pipex created!$(RESET)"
 
 clean:
 	$(MAKE) -C libft clean
+	@echo "$(GREEN)Cleaning up...$(RESET)"
 	rm -rf $(OBJS)
 	rm -rf $(OBJS_BONUS)
+	@echo "$(GREEN)Clean finished!$(RESET)"
 
 fclean: clean
 	$(MAKE) -C libft fclean
+	@echo "$(GREEN)Fcleaning up...$(RESET)"
 	rm -rf $(NAME)
 	rm -rf libft.a
+	@echo "$(GREEN)Fclean finished!$(RESET)"
 
 re: fclean all
 
 .PHONY: $(NAME) all clean fclean re bonus
+
+# COLORS
+RED = \033[31m
+GREEN = \033[32m
+YELLOW = \033[33m
+BLUE = \033[34m
+MAGENTA = \033[35m
+CYAN = \033[36m
+RESET = \033[0m
