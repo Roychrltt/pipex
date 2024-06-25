@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:28:31 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/14 18:37:21 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/25 13:10:38 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static void	child1(char **argv, char **envp, int *fd, char *path)
 		free(command);
 		error_message("Invalid command.\n");
 	}
-	execve(command, command_args, envp);
-	perror_message("Pipex");
+	if (execve(command, command_args, envp))
+		perror_message("execve");
 }
 
 static void	child2(char **argv, char **envp, int *fd, char *path)
@@ -59,8 +59,8 @@ static void	child2(char **argv, char **envp, int *fd, char *path)
 		error_message("Invalid command.\n");
 		exit(EXIT_FAILURE);
 	}
-	execve(command, command_args, envp);
-	perror_message("pipex");
+	if (execve(command, command_args, envp))
+		perror_message("execve");
 }
 
 int	main(int argc, char **argv, char **envp)

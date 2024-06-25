@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:41:50 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/14 18:31:58 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/14 19:04:46 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ static void	exec_command(char *param, char **envp)
 	perror_message("Pipex");
 }
 
-static void	get_here_doc_input(char **argv, int *fd)
+static int	get_here_doc_input(char **argv)
 {
 	char	*input;
 	int		file;
 
-	close(fd[0]);
 	file = open(".here_doc.tmp", O_WRONLY | O_CREAT | O_TRUNC,
 			S_IRUSR | S_IWUSR);
 	if (file == -1)
 		perror_message(".here_doc.tmp file open failure");
+	write (1, "here_doc>", 9);
 	while (1)
 	{
 		input = get_next_line(STDIN_FILENO);
@@ -52,12 +52,13 @@ static void	get_here_doc_input(char **argv, int *fd)
 			break ;
 		}
 		write(file, input, ft_strlen(input));
-		write(file, "\n", 1);
 		free(input);
 	}
 	close(file);
+	file = open_file(".here_doc.tmp", 3);
+	return (file);
 }
-
+/*
 static void	ft_here_doc(char **argv)
 {
 	int		fd[2];
@@ -65,7 +66,6 @@ static void	ft_here_doc(char **argv)
 
 	if (pipe(fd) == -1)
 		perror_message("Pipe");
-	write (1, "here_doc>", 9);
 	pid = fork();
 	if (pid == -1)
 		perror_message("Fork");
@@ -78,7 +78,7 @@ static void	ft_here_doc(char **argv)
 		wait(NULL);
 	}
 }
-
+*/
 static void	ft_pipe(char *param, char **envp)
 {
 	int		fd[2];
@@ -119,20 +119,20 @@ int	main(int argc, char **argv, char **envp)
 		if (argc < 6)
 			exit_handler();
 		i = 3;
+		infile = get_here_doc_input(argv);
 		outfile = open_file(argv[argc - 1], 2);
-		ft_here_doc(argv);
 	}
 	else
 	{
 		i = 2;
 		infile = open_file(argv[1], 0);
 		outfile = open_file(argv[argc - 1], 1);
-		dup2(infile, STDIN_FILENO);
-		close(infile);
 	}
+	dup2(infile, STDIN_FILENO);
 	while (i < argc - 2)
 		ft_pipe(argv[i++], envp);
 	dup2(outfile, STDOUT_FILENO);
+	close(infile);
 	close(outfile);
 	exec_command(argv[argc - 2], envp);
 	wait(NULL);

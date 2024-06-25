@@ -29,7 +29,7 @@ $(NAME): $(OBJS)
 	$(MAKE) -C libft
 	@echo "$(GREEN)Program pipex creating!$(RESET)"
 	$(CC) $(CFLAGS) -I ./src/ $(SRC) -L./libft -lft -o $(NAME)
-	@echo "$(GREEN)Program pipex create!$(RESET)"
+	@echo "CYAN)Program pipex create!$(RESET)"
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -42,9 +42,9 @@ $(EXEC):
 
 bonus: $(OBJS_BONUS)
 	$(MAKE) -C libft
-	@echo "$(GREEN)Bonus pipex creating!$(RESET)"
+	@echo "$(GREEN)Program pipex(bonus) creating!$(RESET)"
 	$(CC) $(CFLAGS) -I ./src_bonus/ $(SRC_BONUS) -L./libft -lft -o $(NAME)
-	@echo "$(GREEN)Bonus pipex created!$(RESET)"
+	@echo "$(CYAN)Program pipex(bonus) created!$(RESET)"
 
 clean:
 	$(MAKE) -C libft clean
