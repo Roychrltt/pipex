@@ -23,13 +23,13 @@ OBJS_BONUS = $(SRC_BONUS:.c=.o)
 
 EXEC = a.out
 
-all = $(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(MAKE) -C libft
-	@echo "$(GREEN)Program pipex creating!$(RESET)"
+	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex$(RESET) $(GREEN)creating$(RESET)!"
 	$(CC) $(CFLAGS) -I ./src/ $(SRC) -L./libft -lft -o $(NAME)
-	@echo "CYAN)Program pipex create!$(RESET)"
+	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex$(RESET) $(GREEN)created$(RESET)!"
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -71,4 +71,5 @@ YELLOW = \033[33m
 BLUE = \033[34m
 MAGENTA = \033[35m
 CYAN = \033[36m
+BOLD = \033[1m
 RESET = \033[0m
