@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:28:31 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/29 14:12:52 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/29 14:51:56 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,9 @@ int	main(int argc, char **argv, char **envp)
 		perror_message("Fork");
 	else if (pid[1] == 0)
 		child2(argv, envp, fd, path);
+	wait(NULL);
+	wait(NULL);
 	close(fd[0]);
 	close(fd[1]);
-	wait(NULL);
 	return (0);
 }
