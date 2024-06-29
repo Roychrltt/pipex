@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:36:14 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/25 12:43:52 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/29 18:48:37 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,17 @@ int	open_file(char *file, int n)
 		if (fd == -1)
 			perror_message("Infile open failure");
 	}
-	if (n == 1)
+	else if (n == 1)
 	{
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 		if (fd == -1)
 			perror_message("Outfile open failure");
 	}
-	if (n == 2)
+	else if (n == 2)
 	{
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
 		if (fd == -1)
 			perror_message("Outfile open failure");
-	}
-	if (n == 3)
-	{
-		fd = open(file, O_RDONLY);
-		if (fd == -1)
-		{
-			unlink(".here_doc.tmp");
-			perror_message(".here_doc.tmp file open failure");
-		}
 	}
 	return (fd);
 }

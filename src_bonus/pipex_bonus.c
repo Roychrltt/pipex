@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:41:50 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/29 14:20:30 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/29 19:37:56 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,33 +52,13 @@ static int	get_here_doc_input(char **argv)
 			break ;
 		}
 		write(file, input, ft_strlen(input));
+		free(input);
 	}
 	close(file);
-	file = open_file(".here_doc.tmp", 3);
+	file = open_here_doc();
 	return (file);
 }
 
-/*
-static void	ft_here_doc(char **argv)
-{
-	int		fd[2];
-	pid_t	pid;
-
-	if (pipe(fd) == -1)
-		perror_message("Pipe");
-	pid = fork();
-	if (pid == -1)
-		perror_message("Fork");
-	if (pid == 0)
-		get_here_doc_input(argv, fd);
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		wait(NULL);
-	}
-}
-*/
 static void	ft_pipe(char *param, char **envp)
 {
 	int		fd[2];
@@ -102,8 +82,23 @@ static void	ft_pipe(char *param, char **envp)
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
-		wait(NULL);
 	}
+}
+
+static void	last_child(int outfile, int argc, char **argv, char **envp)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid < 0)
+		perror_message("Fork");
+	if (pid == 0)
+	{
+		dup2(outfile, STDOUT_FILENO);
+		close(outfile);
+		exec_command(argv[argc - 2], envp);
+	}
+	close(outfile);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -120,20 +115,17 @@ int	main(int argc, char **argv, char **envp)
 			exit_handler_here_doc();
 		i = 3;
 		infile = get_here_doc_input(argv);
-		outfile = open_file(argv[argc - 1], 2);
 	}
 	else
 	{
 		i = 2;
 		infile = open_file(argv[1], 0);
-		outfile = open_file(argv[argc - 1], 1);
 	}
+	outfile = open_file(argv[argc - 1], 1);
 	dup2(infile, STDIN_FILENO);
 	close(infile);
 	while (i < argc - 2)
 		ft_pipe(argv[i++], envp);
-	dup2(outfile, STDOUT_FILENO);
-	close(outfile);
-	exec_command(argv[argc - 2], envp);
-	wait(NULL);
+	last_child(outfile, argc, argv, envp);
+	result_handler(argc);
 }
