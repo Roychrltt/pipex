@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:41:50 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/29 19:37:56 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/29 22:24:54 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	exec_command(char *param, char **envp)
 	char	*command;
 
 	command_args = ft_split(param, ' ');
+	if (!command_args)
+		exit(EXIT_FAILURE);
 	path = ft_getenv("PATH", envp);
 	command = get_command(path, command_args[0]);
 	if (!command)
