@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:41:50 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/14 19:04:46 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/29 12:03:12 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	get_here_doc_input(char **argv)
 	file = open(".here_doc.tmp", O_WRONLY | O_CREAT | O_TRUNC,
 			S_IRUSR | S_IWUSR);
 	if (file == -1)
-		perror_message(".here_doc.tmp file open failure");
+			perror_message(".here_doc.tmp open failure");
 	write (1, "here_doc>", 9);
 	while (1)
 	{
@@ -52,7 +52,6 @@ static int	get_here_doc_input(char **argv)
 			break ;
 		}
 		write(file, input, ft_strlen(input));
-		free(input);
 	}
 	close(file);
 	file = open_file(".here_doc.tmp", 3);
@@ -114,10 +113,10 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc < 5)
 		exit_handler();
-	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
 	{
 		if (argc < 6)
-			exit_handler();
+			exit_handler_here_doc();
 		i = 3;
 		infile = get_here_doc_input(argv);
 		outfile = open_file(argv[argc - 1], 2);
