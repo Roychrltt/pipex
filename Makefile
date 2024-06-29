@@ -14,8 +14,7 @@ OBJS = $(SRC:.c=.o)
 
 SRC_BONUS_DIR = ./src_bonus/
 
-SRC_BONUS_FILES = pipex_bonus.c pipex_utils_bonus.c pipex_utils1_bonus.c \
-				  line_bonus.c line_utils_bonus.c
+SRC_BONUS_FILES = pipex_bonus.c pipex_utils_bonus.c pipex_utils1_bonus.c
 			
 SRC_BONUS = $(addprefix $(SRC_BONUS_DIR), $(SRC_BONUS_FILES))
 
@@ -27,9 +26,9 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(MAKE) -C libft
-	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex$(RESET) $(GREEN)creating$(RESET)!"
-	$(CC) $(CFLAGS) -I ./src/ $(SRC) -L./libft -lft -o $(NAME)
-	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex$(RESET) $(GREEN)created$(RESET)!"
+	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex$(RESET) $(GREEN)creating!$(RESET)"
+	$(CC) $(CFLAGS) -I/src/ $(SRC) -L./libft -lft -o $(NAME)
+	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex$(RESET) $(GREEN)created!$(RESET)"
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -42,9 +41,9 @@ $(EXEC):
 
 bonus: $(OBJS_BONUS)
 	$(MAKE) -C libft
-	@echo "$(GREEN)Program pipex(bonus) creating!$(RESET)"
+	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex(bonus)$(RESET) $(GREEN)creating!$(RESET)"
 	$(CC) $(CFLAGS) -I ./src_bonus/ $(SRC_BONUS) -L./libft -lft -o $(NAME)
-	@echo "$(CYAN)Program pipex(bonus) created!$(RESET)"
+	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex(bonus)$(RESET) $(GREEN)created!$(RESET)"
 
 clean:
 	$(MAKE) -C libft clean
@@ -54,10 +53,9 @@ clean:
 	@echo "$(GREEN)Clean finished!$(RESET)"
 
 fclean: clean
-	$(MAKE) -C libft fclean
 	@echo "$(GREEN)Fcleaning up...$(RESET)"
 	rm -rf $(NAME)
-	rm -rf libft.a
+	rm -rf ./libft/libft.a
 	@echo "$(GREEN)Fclean finished!$(RESET)"
 
 re: fclean all
