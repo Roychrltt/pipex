@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:28:31 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/29 22:39:45 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/29 22:52:30 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	child1(char **argv, char **envp, int *fd, int infile)
 	close(infile);
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
+	close(fd[1]);
 	path = ft_getenv("PATH", envp);
 	command_args = ft_split(argv[2], ' ');
 	command = get_command(path, command_args[0]);
@@ -46,6 +47,7 @@ static void	child2(char **argv, char **envp, int *fd, int outfile)
 	close(outfile);
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
 	command_args = ft_split(argv[3], ' ');
 	command = get_command(path, command_args[0]);
 	if (!command)
@@ -107,8 +109,8 @@ int	main(int argc, char **argv, char **envp)
 		perror_message("Fork");
 	else if (pid[1] == 0)
 		child2(argv, envp, fd, outfile);
-	wait(NULL);
-	wait(NULL);
 	close_fds(fd);
+	wait(NULL);
+	wait(NULL);
 	return (0);
 }
