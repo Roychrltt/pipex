@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:28:31 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/25 13:10:38 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/29 14:12:52 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static void	child1(char **argv, char **envp, int *fd, char *path)
 	if (infile == -1)
 		perror_message("Infile open failure");
 	dup2(infile, STDIN_FILENO);
-	dup2(fd[1], STDOUT_FILENO);
 	close(infile);
 	close(fd[0]);
+	dup2(fd[1], STDOUT_FILENO);
 	command_args = ft_split(argv[2], ' ');
 	command = get_command(path, command_args[0]);
 	if (!command)
@@ -47,9 +47,9 @@ static void	child2(char **argv, char **envp, int *fd, char *path)
 	if (outfile == -1)
 		perror_message("Outfile open failure");
 	dup2(outfile, STDOUT_FILENO);
-	dup2(fd[0], STDIN_FILENO);
 	close(outfile);
 	close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
 	command_args = ft_split(argv[3], ' ');
 	command = get_command(path, command_args[0]);
 	if (!command)

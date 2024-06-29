@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:41:50 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/29 12:03:12 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/29 13:25:09 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,10 @@ int	main(int argc, char **argv, char **envp)
 		outfile = open_file(argv[argc - 1], 1);
 	}
 	dup2(infile, STDIN_FILENO);
+	close(infile);
 	while (i < argc - 2)
 		ft_pipe(argv[i++], envp);
 	dup2(outfile, STDOUT_FILENO);
-	close(infile);
 	close(outfile);
 	exec_command(argv[argc - 2], envp);
 	wait(NULL);
