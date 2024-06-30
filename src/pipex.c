@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:28:31 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/29 22:52:30 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/06/30 09:39:41 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,12 @@ static int	open_file(char *name, int n)
 	return (file);
 }
 
-static void	close_fds(int *fds)
+static void	close_fds(int *fds, int infile, int outfile)
 {
 	close(fds[0]);
 	close(fds[1]);
+	close(infile);
+	close(outfile);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -109,7 +111,7 @@ int	main(int argc, char **argv, char **envp)
 		perror_message("Fork");
 	else if (pid[1] == 0)
 		child2(argv, envp, fd, outfile);
-	close_fds(fd);
+	close_fds(fd, infile, outfile);
 	wait(NULL);
 	wait(NULL);
 	return (0);
