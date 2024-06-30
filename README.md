@@ -1,5 +1,7 @@
 # pipex
 
+Validated on 30/06/2024
+
 125/100
 
 Times invested: about 3 weeks
