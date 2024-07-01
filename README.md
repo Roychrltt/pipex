@@ -6,6 +6,10 @@ Validated on 30/06/2024
 
 Times invested: about 3 weeks
 
-The split in mandatory part is not well protected. Should not be a problem in this project, but would be a mistake in Minishell.
+Defects of this project: 
+
+The split in mandatory part is not well protected. The condition where dup2() returns -1 is not thought of neither... If we launch ./pipex with env -i(without environment), the program will say "command not found". If we pass absolute paths of commands, it will not work.
+
+All of these might not be a problem in this project, but would be a mistake in Minishell.
 
 Take your time to understand this project, it would be really useful later.
