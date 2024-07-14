@@ -28,9 +28,6 @@ $(NAME): $(OBJS)
 	@$(MAKE) -sC libft
 	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)$(BLINK)pipex$(RESET) $(GREEN)creating!$(RESET)"
 	@$(CC) $(CFLAGS) -I/src/ $(SRC) -L./libft -lft -o $(NAME)
-	@$(MAKE) -sC libft
-	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex$(RESET) $(GREEN)creating!$(RESET)"
-	@$(CC) $(CFLAGS) -I/src/ $(SRC) -L./libft -lft -o $(NAME)
 	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex$(RESET) $(GREEN)created!$(RESET)"
 
 %.o: %.c
