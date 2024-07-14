@@ -41,8 +41,7 @@ $(EXEC):
 
 bonus: $(OBJS_BONUS)
 	@$(MAKE) -sC libft
-	$(MAKE) -sC libft
-	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex(bonus)$(RESET) $(GREEN)creating!$(RESET)"
+	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)$(BLINK)pipex(bonus)$(RESET) $(GREEN)creating!$(RESET)"
 	@$(CC) $(CFLAGS) -I ./src_bonus/ $(SRC_BONUS) -L./libft -lft -o $(NAME)
 	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex(bonus)$(RESET) $(GREEN)created!$(RESET)"
 
