@@ -25,9 +25,15 @@ EXEC = a.out
 all: $(NAME)
 
 $(NAME): $(OBJS)
+<<<<<<< HEAD
 	@$(MAKE) -sC libft
 	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)$(BLINK)pipex$(RESET) $(GREEN)creating!$(RESET)"
 	@$(CC) $(CFLAGS) -I/src/ $(SRC) -L./libft -lft -o $(NAME)
+=======
+	$(MAKE) -sC libft
+	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex$(RESET) $(GREEN)creating!$(RESET)"
+	$(CC) $(CFLAGS) -I/src/ $(SRC) -L./libft -lft -o $(NAME)
+>>>>>>> 1766f42630dca72e848c5429f8fc3f0a086e06ca
 	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex$(RESET) $(GREEN)created!$(RESET)"
 
 %.o: %.c
@@ -40,13 +46,21 @@ $(EXEC):
 	$(CC) $(CFLAGS) $(SRC)
 
 bonus: $(OBJS_BONUS)
+<<<<<<< HEAD
 	@$(MAKE) -sC libft
+=======
+	$(MAKE) -sC libft
+>>>>>>> 1766f42630dca72e848c5429f8fc3f0a086e06ca
 	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex(bonus)$(RESET) $(GREEN)creating!$(RESET)"
 	@$(CC) $(CFLAGS) -I ./src_bonus/ $(SRC_BONUS) -L./libft -lft -o $(NAME)
 	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex(bonus)$(RESET) $(GREEN)created!$(RESET)"
 
 clean:
+<<<<<<< HEAD
 	@$(MAKE) -sC libft clean
+=======
+	$(MAKE) -sC libft clean
+>>>>>>> 1766f42630dca72e848c5429f8fc3f0a086e06ca
 	@echo "$(GREEN)Cleaning up...$(RESET)"
 	@rm -rf $(OBJS)
 	@rm -rf $(OBJS_BONUS)

@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:05:37 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/14 11:32:37 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/07/01 16:39:46 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 void	error_message(char *error);
 void	perror_message(char *error);
-char	*ft_getenv(char *path, char **envp);
+char	*ft_getenv(char **envp);
 char	*get_command(char *path, char *cmd);
 void	free_tab(char **tab);
 

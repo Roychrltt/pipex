@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:28:31 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/06/29 22:52:30 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/07/01 17:11:30 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	child1(char **argv, char **envp, int *fd, int infile)
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
-	path = ft_getenv("PATH", envp);
+	path = ft_getenv(envp);
 	command_args = ft_split(argv[2], ' ');
 	command = get_command(path, command_args[0]);
 	if (!command)
@@ -33,7 +33,11 @@ static void	child1(char **argv, char **envp, int *fd, int infile)
 		error_message("Invalid command.\n");
 	}
 	if (execve(command, command_args, envp))
+	{
+		free_tab(command_args);
+		free(command);
 		perror_message("execve");
+	}
 }
 
 static void	child2(char **argv, char **envp, int *fd, int outfile)
@@ -42,7 +46,7 @@ static void	child2(char **argv, char **envp, int *fd, int outfile)
 	char	*command;
 	char	**command_args;
 
-	path = ft_getenv("PATH", envp);
+	path = ft_getenv(envp);
 	dup2(outfile, STDOUT_FILENO);
 	close(outfile);
 	close(fd[1]);
@@ -58,7 +62,11 @@ static void	child2(char **argv, char **envp, int *fd, int outfile)
 		exit(EXIT_FAILURE);
 	}
 	if (execve(command, command_args, envp))
+	{
+		free_tab(command_args);
+		free(command);
 		perror_message("execve");
+	}
 }
 
 static int	open_file(char *name, int n)
@@ -80,10 +88,12 @@ static int	open_file(char *name, int n)
 	return (file);
 }
 
-static void	close_fds(int *fds)
+static void	close_fds(int *fds, int infile, int outfile)
 {
 	close(fds[0]);
 	close(fds[1]);
+	close(infile);
+	close(outfile);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -109,7 +119,7 @@ int	main(int argc, char **argv, char **envp)
 		perror_message("Fork");
 	else if (pid[1] == 0)
 		child2(argv, envp, fd, outfile);
-	close_fds(fd);
+	close_fds(fd, infile, outfile);
 	wait(NULL);
 	wait(NULL);
 	return (0);
