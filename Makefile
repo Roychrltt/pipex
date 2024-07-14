@@ -25,13 +25,13 @@ EXEC = a.out
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(MAKE) -C libft
-	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex$(RESET) $(GREEN)creating!$(RESET)"
-	$(CC) $(CFLAGS) -I/src/ $(SRC) -L./libft -lft -o $(NAME)
+	@$(MAKE) -sC libft
+	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)$(BLINK)pipex$(RESET) $(GREEN)creating!$(RESET)"
+	@$(CC) $(CFLAGS) -I/src/ $(SRC) -L./libft -lft -o $(NAME)
 	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex$(RESET) $(GREEN)created!$(RESET)"
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 test: $(EXEC)
 	chmod 755 $(EXEC)
@@ -40,22 +40,22 @@ $(EXEC):
 	$(CC) $(CFLAGS) $(SRC)
 
 bonus: $(OBJS_BONUS)
-	$(MAKE) -C libft
+	@$(MAKE) -sC libft
 	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex(bonus)$(RESET) $(GREEN)creating!$(RESET)"
-	$(CC) $(CFLAGS) -I ./src_bonus/ $(SRC_BONUS) -L./libft -lft -o $(NAME)
+	@$(CC) $(CFLAGS) -I ./src_bonus/ $(SRC_BONUS) -L./libft -lft -o $(NAME)
 	@echo "$(GREEN)Program$(RESET) $(CYAN)$(BOLD)pipex(bonus)$(RESET) $(GREEN)created!$(RESET)"
 
 clean:
-	$(MAKE) -C libft clean
+	@$(MAKE) -sC libft clean
 	@echo "$(GREEN)Cleaning up...$(RESET)"
-	rm -rf $(OBJS)
-	rm -rf $(OBJS_BONUS)
+	@rm -rf $(OBJS)
+	@rm -rf $(OBJS_BONUS)
 	@echo "$(GREEN)Clean finished!$(RESET)"
 
 fclean: clean
 	@echo "$(GREEN)Fcleaning up...$(RESET)"
-	rm -rf $(NAME)
-	rm -rf ./libft/libft.a
+	@rm -rf $(NAME)
+	@rm -rf ./libft/libft.a
 	@echo "$(GREEN)Fclean finished!$(RESET)"
 
 re: fclean all
@@ -70,4 +70,5 @@ BLUE = \033[34m
 MAGENTA = \033[35m
 CYAN = \033[36m
 BOLD = \033[1m
+BLINK = \033[5m
 RESET = \033[0m
