@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:28:31 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/07/01 17:11:30 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/07/16 09:58:22 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@ static void	child1(char **argv, char **envp, int *fd, int infile)
 		free_tab(command_args);
 		free(command);
 		error_message("Invalid command.\n");
+		exit(EXIT_FAILURE);
 	}
 	if (execve(command, command_args, envp))
 	{
 		free_tab(command_args);
+		perror(command);
 		free(command);
-		perror_message("execve");
 	}
 }
 
@@ -46,12 +47,12 @@ static void	child2(char **argv, char **envp, int *fd, int outfile)
 	char	*command;
 	char	**command_args;
 
-	path = ft_getenv(envp);
 	dup2(outfile, STDOUT_FILENO);
 	close(outfile);
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
+	path = ft_getenv(envp);
 	command_args = ft_split(argv[3], ' ');
 	command = get_command(path, command_args[0]);
 	if (!command)
@@ -64,8 +65,8 @@ static void	child2(char **argv, char **envp, int *fd, int outfile)
 	if (execve(command, command_args, envp))
 	{
 		free_tab(command_args);
+		perror(command);
 		free(command);
-		perror_message("execve");
 	}
 }
 
@@ -77,13 +78,16 @@ static int	open_file(char *name, int n)
 	{
 		file = open(name, O_RDONLY);
 		if (file == -1)
-			perror_message("Infile open failure");
+		{
+			file = 0;
+			perror("Infile");
+		}
 	}
 	if (n == 1)
 	{
 		file = open(name, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 		if (file == -1)
-			perror_message("Outfile open failure");
+			perror("Outfile");
 	}
 	return (file);
 }
