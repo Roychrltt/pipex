@@ -6,7 +6,7 @@
 /*   By: xiaxu <xiaxu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:28:31 by xiaxu             #+#    #+#             */
-/*   Updated: 2024/07/16 09:58:22 by xiaxu            ###   ########.fr       */
+/*   Updated: 2024/07/16 11:31:41 by xiaxu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,15 @@ static int	open_file(char *name, int n)
 		file = open(name, O_RDONLY);
 		if (file == -1)
 		{
-			file = 0;
-			perror("Infile");
+			file = STDIN_FILENO;
+			perror(name);
 		}
 	}
 	if (n == 1)
 	{
 		file = open(name, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 		if (file == -1)
-			perror("Outfile");
+			perror(name);
 	}
 	return (file);
 }
@@ -113,11 +113,14 @@ int	main(int argc, char **argv, char **envp)
 	outfile = open_file(argv[4], 1);
 	if (pipe(fd) == -1)
 		perror_message("Pipe");
-	pid[0] = fork();
-	if (pid[0] == -1)
-		perror_message("Fork");
-	else if (pid[0] == 0)
-		child1(argv, envp, fd, infile);
+	if (infile != STDIN_FILENO)
+	{
+		pid[0] = fork();
+		if (pid[0] == -1)
+			perror_message("Fork");
+		else if (pid[0] == 0)
+			child1(argv, envp, fd, infile);
+	}
 	pid[1] = fork();
 	if (pid[1] == -1)
 		perror_message("Fork");
